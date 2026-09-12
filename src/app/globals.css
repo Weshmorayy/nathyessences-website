@@ -3,15 +3,21 @@
 @tailwind utilities;
 
 :root {
-  --color-bg-primary: #0A0D14;
-  --color-bg-secondary: #101522;
-  --color-bg-card: #151C2C;
-  --color-accent-gold: #D4AF37;
-  --color-accent-amber: #E5A83B;
-  --color-accent-light: #F3E5AB;
-  --color-text-main: #FFFFFF;
-  --color-text-muted: #9BA3B5;
-  --color-border-subtle: #232D42;
+  /* Palette Lumineuse & Contrastée Nathy Essences */
+  --color-bg-light: #FAF9F6;
+  --color-bg-white: #FFFFFF;
+  --color-bg-cream: #F5EFEB;
+  --color-bg-navy: #090E1A;
+  --color-bg-navy-card: #121A2E;
+  
+  --color-gold: #C59A3F;
+  --color-gold-hover: #A67D28;
+  --color-gold-light: #F9F3E5;
+  --color-amber: #D9822B;
+  
+  --color-text-dark: #14171F;
+  --color-text-muted: #5C6479;
+  --color-border-light: #E8E2D8;
 }
 
 @layer base {
@@ -21,25 +27,21 @@
   }
 
   body {
-    background-color: var(--color-bg-primary);
-    color: var(--color-text-main);
+    background-color: var(--color-bg-light);
+    color: var(--color-text-dark);
     overflow-x: hidden;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   }
 }
 
-.gold-gradient-title {
-  background: linear-gradient(135deg, #FFF0C2 0%, #D4AF37 50%, #B47B2B 100%);
+.gold-gradient-text {
+  background: linear-gradient(135deg, #A67D28 0%, #C59A3F 50%, #E8C170 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-.gold-amber-glow {
-  box-shadow: 0 0 35px rgba(212, 175, 55, 0.12);
-}
-
-.card-luxury-glass {
-  background: rgba(21, 28, 44, 0.7);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(212, 175, 55, 0.18);
+.gold-gradient-dark-text {
+  background: linear-gradient(135deg, #FFF0C2 0%, #E5BE65 50%, #C59A3F 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
