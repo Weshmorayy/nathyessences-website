@@ -1,149 +1,186 @@
 'use client';
 
 import React, { useState } from 'react';
-import {
-  Sparkles,
-  Scissors,
-  Crown,
-  Heart,
-  Eye,
-  ShieldCheck,
-  UserCheck,
-  Smile,
-  Check,
-  MessageCircle,
-  type LucideIcon,
-} from 'lucide-react';
 import { siteConfig } from '@/config/site';
-import { Section } from '@/components/ui/Section';
-import { Card } from '@/components/ui/Card';
-import { Badge } from '@/components/ui/Badge';
-import { Button } from '@/components/ui/Button';
+import { Search, Sparkles, MessageCircle, Heart, Flame, Shield, ArrowRight } from 'lucide-react';
 
-const iconMap: Record<string, LucideIcon> = {
-  Sparkles,
-  Scissors,
-  Crown,
-  Heart,
-  Eye,
-  ShieldCheck,
-  UserCheck,
-  Smile,
-};
+const catalogueEssences = [
+  // Homme
+  { name: 'Imagination', house: 'Louis Vuitton', gender: 'Homme / Mixte', family: 'Agrumes & Boisé Thé', price: 'Dès 1 500 F', special: true },
+  { name: 'Baccarat Rouge 540', house: 'Maison Francis Kurkdjian', gender: 'Mixte', family: 'Ambré Boisé Gourmand', price: 'Dès 1 500 F', special: false },
+  { name: 'Bois Impérial', house: 'Essential Parfums', gender: 'Homme / Mixte', family: 'Boisé Aromatique & Akigalawood', price: 'Dès 2 000 F', special: true },
+  { name: 'Ganymède', house: 'Marc-Antoine Barrois', gender: 'Mixte', family: 'Minéral Cuiré Suédé', price: 'Dès 2 000 F', special: true },
+  { name: 'Alexandria II', house: 'Xerjoff', gender: 'Mixte / Prestige', family: 'Oud Royal & Lavande', price: 'Dès 2 000 F', special: true },
+  { name: 'Hibiscus Mahajád', house: 'Maison Crivelli', gender: 'Mixte / Niche', family: 'Floral Fruité & Cuir Vanille', price: 'Dès 2 000 F', special: true },
+  { name: 'Tilia', house: 'Marc-Antoine Barrois', gender: 'Mixte', family: 'Tilleul Doré & Miel Boisé', price: 'Dès 2 000 F', special: true },
+  { name: 'Amouage Interlude 53', house: 'Amouage', gender: 'Homme / Extrême', family: 'Encens & Cuir Ambré', price: 'Dès 2 000 F', special: true },
+  { name: 'Bleu de Chanel L’Exclusif', house: 'Chanel', gender: 'Homme', family: 'Boisé Aromatique Profond', price: 'Dès 1 500 F', special: false },
+  { name: 'Sauvage Elixir', house: 'Dior', gender: 'Homme', family: 'Épices Chaudes & Lavande Boisée', price: 'Dès 1 500 F', special: false },
+  { name: 'Tom Ford Tobacco Vanille', house: 'Tom Ford', gender: 'Mixte', family: 'Tabac Gourmand & Épices', price: 'Dès 1 500 F', special: false },
+  { name: 'Creed Aventus', house: 'Creed', gender: 'Homme', family: 'Fruité Boisé Ananas Fumé', price: 'Dès 1 500 F', special: false },
+
+  // Femme
+  { name: 'Delina Exclusif', house: 'Parfums de Marly', gender: 'Femme', family: 'Rose Turque & Oud Vanille', price: 'Dès 1 500 F', special: false },
+  { name: 'Kayali Yum Pistachio Gelato', house: 'Kayali', gender: 'Femme', family: 'Gourmand Pistache & Crème', price: 'Dès 1 500 F', special: false },
+  { name: 'Libre Intense', house: 'Yves Saint Laurent', gender: 'Femme', family: 'Fleur d’Oranger & Lavande Vanillée', price: 'Dès 1 500 F', special: false },
+  { name: 'Bianco Latte', house: 'Giardini Di Toscana', gender: 'Femme / Gourmand', family: 'Lait Chaud, Caramel & Miel', price: 'Dès 1 500 F', special: false },
+  { name: 'Guidance', house: 'Amouage', gender: 'Femme / Niche', family: 'Encens, Noisette & Osmanthus', price: 'Dès 2 000 F', special: true },
+  { name: 'Escentric Molecules 02', house: 'Escentric Molecules', gender: 'Mixte', family: 'Ambroxan Pur & Aura Propre', price: 'Dès 2 500 F', special: true },
+  { name: 'DKNY Be Delicious', house: 'Donna Karan', gender: 'Femme', family: 'Pomme Verte Croquante & Fraîcheur', price: 'Dès 1 500 F', special: false },
+  { name: 'Erba Pura', house: 'Xerjoff', gender: 'Mixte', family: 'Cocktail Fruité Méditerranéen', price: 'Dès 2 000 F', special: true },
+];
 
 export function Services() {
-  const { services, contact } = siteConfig;
-  const [selectedCategory, setSelectedCategory] = useState<string>('Tous');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [activeCategory, setActiveCategory] = useState('Tous');
 
-  const categories = ['Tous', ...services.categories];
-
-  const filteredItems =
-    selectedCategory === 'Tous'
-      ? services.items
-      : services.items.filter((item) => item.category === selectedCategory);
+  const filteredEssences = catalogueEssences.filter((item) => {
+    const matchesSearch =
+      item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.house.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.family.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    if (activeCategory === 'Tous') return matchesSearch;
+    if (activeCategory === 'Spéciaux / Niche') return matchesSearch && item.special;
+    if (activeCategory === 'Homme') return matchesSearch && item.gender.includes('Homme');
+    if (activeCategory === 'Femme') return matchesSearch && item.gender.includes('Femme');
+    return matchesSearch;
+  });
 
   return (
-    <Section
-      id="services"
-      badge={services.badge}
-      title={services.title}
-      subtitle={services.subtitle}
-      background="subtle"
-    >
-      {/* Category Pills Filter */}
-      <div className="flex flex-wrap items-center justify-center gap-2 mb-12">
-        {categories.map((cat) => (
-          <button
-            key={cat}
-            onClick={() => setSelectedCategory(cat)}
-            className={`px-4 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
-              selectedCategory === cat
-                ? 'bg-surface-950 text-brand-300 shadow-md ring-1 ring-brand-400/40'
-                : 'bg-white text-surface-700 hover:bg-brand-50 border border-surface-200'
-            }`}
-          >
-            {cat}
-          </button>
-        ))}
-      </div>
+    <section id="catalogue" className="py-24 bg-[#101522] border-b border-[#232D42]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Editorial Header */}
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#151C2C] border border-[#D4AF37]/30 text-[#D4AF37] text-xs font-semibold uppercase tracking-wider mb-4">
+            <Sparkles className="w-3.5 h-3.5 text-[#D4AF37]" />
+            <span>L’Orgue à Parfums (+150 Références)</span>
+          </div>
+          <h2 className="text-3xl sm:text-5xl font-serif font-bold text-white mb-6">
+            Trouvez Votre Signature Olfactive
+          </h2>
+          <p className="text-gray-300 font-light text-base sm:text-lg">
+            Recherchez instantanément votre extrait de parfum préféré parmi nos 150+ créations de prestige.
+          </p>
+        </div>
 
-      {/* Services Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {filteredItems.map((item) => {
-          const IconComponent = iconMap[item.iconName] || Sparkles;
-          const whatsappServiceLink = `https://wa.me/221771644848?text=Bonjour%20Glow%20%26%20Shine%2C%20je%20souhaite%20des%20informations%20et%20r%C3%A9server%20pour%20%3A%20${encodeURIComponent(
-            item.title
-          )}`;
+        {/* Search & Filter Toolbar */}
+        <div className="max-w-3xl mx-auto mb-12 space-y-4">
+          <div className="relative">
+            <Search className="w-5 h-5 text-[#D4AF37] absolute left-4 top-1/2 -translate-y-1/2" />
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder="Rechercher par nom (ex: Imagination, Baccarat, Ganymede, Kayali, Bois Impérial...)"
+              className="w-full pl-12 pr-4 py-4 rounded-full bg-[#151C2C] border border-[#232D42] focus:border-[#D4AF37] text-white text-sm focus:outline-none shadow-inner"
+            />
+          </div>
 
-          return (
-            <Card
-              key={item.id}
-              className={`flex flex-col justify-between relative bg-white border-surface-200 hover:border-brand-400 ${
-                item.popular ? 'border-brand-400 ring-2 ring-brand-400/20 shadow-md' : ''
-              }`}
+          <div className="flex flex-wrap gap-2 justify-center pt-2">
+            {['Tous', 'Homme', 'Femme', 'Spéciaux / Niche'].map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                className={`px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all ${
+                  activeCategory === cat
+                    ? 'bg-gradient-to-r from-[#D4AF37] to-[#B47B2B] text-black shadow-md'
+                    : 'bg-[#151C2C] text-gray-400 hover:text-white border border-[#232D42]'
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Dynamic Directory Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-16">
+          {filteredEssences.map((essence, idx) => (
+            <div
+              key={idx}
+              className="bg-[#151C2C] rounded-2xl p-6 border border-[#232D42] hover:border-[#D4AF37]/60 transition-all duration-300 hover:shadow-xl flex flex-col justify-between group"
             >
               <div>
-                {/* Popular Pill */}
-                {item.popular && (
-                  <div className="absolute -top-3 right-6">
-                    <Badge variant="primary" size="sm" className="bg-brand-500 text-white font-bold shadow-sm border-none">
-                      Top Prestation
-                    </Badge>
-                  </div>
-                )}
-
-                {/* Category & Icon */}
-                <div className="flex items-center justify-between mb-4">
-                  <div className="w-12 h-12 rounded-2xl bg-brand-50 text-brand-700 flex items-center justify-center shadow-sm">
-                    <IconComponent className="w-6 h-6" />
-                  </div>
-                  <span className="text-[11px] font-bold text-surface-500 uppercase tracking-wider bg-surface-100 px-2.5 py-1 rounded-md">
-                    {item.category}
+                <div className="flex justify-between items-start mb-3">
+                  <span className="text-[10px] uppercase tracking-widest text-[#D4AF37] font-bold">
+                    {essence.house}
+                  </span>
+                  <span className="text-[10px] uppercase font-semibold px-2 py-0.5 rounded-full bg-white/5 text-gray-300 border border-white/10">
+                    {essence.gender}
                   </span>
                 </div>
 
-                <h3 className="text-xl font-bold text-surface-950 mb-2">
-                  {item.title}
+                <h3 className="font-serif font-bold text-xl text-white group-hover:text-[#D4AF37] transition-colors mb-2">
+                  {essence.name}
                 </h3>
-                <p className="text-sm text-surface-600 leading-relaxed mb-6">
-                  {item.description}
+
+                <p className="text-xs text-gray-400 font-light leading-relaxed mb-4">
+                  {essence.family}
                 </p>
-
-                {/* Features Checklist */}
-                {item.features && (
-                  <ul className="space-y-2 mb-6 border-t border-surface-100 pt-4">
-                    {item.features.map((feature, idx) => (
-                      <li key={idx} className="flex items-center gap-2.5 text-xs text-surface-700">
-                        <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                        <span>{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                )}
               </div>
 
-              {/* Bottom Card Action & Price Note */}
-              <div className="pt-4 border-t border-surface-100 space-y-3">
-                {item.priceNote && (
-                  <p className="text-xs font-semibold text-brand-800 text-center">
-                    ✨ {item.priceNote}
-                  </p>
-                )}
-                <Button
-                  href={whatsappServiceLink}
-                  isExternal
-                  variant="outline"
-                  size="sm"
-                  className="w-full justify-center bg-brand-50/50 hover:bg-brand-100/60 border-brand-300 text-brand-900 group font-semibold"
+              <div className="pt-4 border-t border-white/5 flex items-center justify-between">
+                <div>
+                  <span className="text-[10px] uppercase text-gray-500 block">Flaconnage</span>
+                  <span className="text-sm font-bold text-[#D4AF37]">{essence.price}</span>
+                </div>
+
+                <a
+                  href={`https://wa.me/${siteConfig.contact.whatsappNumber}?text=${encodeURIComponent(
+                    `Bonjour Nathy Essences, je souhaite commander l'essence pure : ${essence.name} (${essence.house}).`
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-2 rounded-full bg-white/5 hover:bg-[#D4AF37] text-gray-200 hover:text-black border border-white/10 hover:border-[#D4AF37] text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5"
                 >
-                  <MessageCircle className="w-4 h-4 mr-1.5 text-emerald-600" />
-                  <span>Réserver sur WhatsApp</span>
-                </Button>
+                  <MessageCircle className="w-3.5 h-3.5" />
+                  <span>Commander</span>
+                </a>
               </div>
-            </Card>
-          );
-        })}
+            </div>
+          ))}
+        </div>
+
+        {/* The Layering Formula Box (Unique Feature) */}
+        <div className="bg-gradient-to-r from-[#151C2C] via-[#1A2236] to-[#151C2C] rounded-3xl p-8 sm:p-12 border-2 border-[#D4AF37]/40 shadow-2xl relative overflow-hidden">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <div className="lg:col-span-8">
+              <span className="text-xs font-bold uppercase tracking-widest text-[#D4AF37] block mb-2">
+                Secret de Mixologie Nathy
+              </span>
+              <h3 className="text-2xl sm:text-3xl font-serif font-bold text-white mb-4">
+                Le Combo Culte : Imagination (LV) + DKNY Be Delicious
+              </h3>
+              <p className="text-gray-300 text-sm sm:text-base leading-relaxed font-light mb-6">
+                « Je suis en train de tchouer les gens ici avec mon mix d’Imagination LV + DKNY... Je sens la richesse ! » — Sita K.
+                <br />
+                Nos conseillers en essences vous guident pour associer deux extraits et créer un sillage unique qui ne ressemble à aucun autre.
+              </p>
+              <a
+                href={`https://wa.me/${siteConfig.contact.whatsappNumber}?text=${encodeURIComponent(
+                  "Bonjour Nathy Essences, je souhaite des conseils pour créer mon mix / layering personnalisé de 2 essences !"
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-gradient-to-r from-[#D4AF37] to-[#B47B2B] text-black text-xs font-bold uppercase tracking-wider shadow-md hover:opacity-95"
+              >
+                <Sparkles className="w-4 h-4" />
+                <span>Demander ma recette de layering WhatsApp</span>
+              </a>
+            </div>
+
+            <div className="lg:col-span-4 bg-[#0A0D14]/80 p-6 rounded-2xl border border-white/10 text-center">
+              <span className="text-xs uppercase font-bold text-gray-400 block mb-2">Formule Duo Spéciale</span>
+              <div className="text-3xl font-serif font-bold text-[#D4AF37] mb-1">Pack Duo 2x35ml</div>
+              <span className="text-sm text-gray-300 block mb-4">12 000 FCFA (au lieu de 13 000 F)</span>
+              <span className="text-[11px] text-emerald-400 bg-emerald-950/60 border border-emerald-800/60 px-3 py-1 rounded-full inline-block">
+                Livraison express Abidjan
+              </span>
+            </div>
+          </div>
+        </div>
       </div>
-    </Section>
+    </section>
   );
 }

@@ -1,165 +1,103 @@
 import React from 'react';
+import Link from 'next/link';
 import Image from 'next/image';
-import { Phone, Mail, MapPin, ArrowUp, Clock, MessageCircle, Sparkles } from 'lucide-react';
 import { siteConfig } from '@/config/site';
-import { footerNavigation } from '@/config/navigation';
-import { Container } from '@/components/ui/Container';
+import { Phone, MessageCircle, MapPin, Sparkles } from 'lucide-react';
+
+const navigationLinks = [
+  { label: 'Accueil', href: '/' },
+  { label: 'Catalogue d’Essences', href: '#catalogue' },
+  { label: 'Formats & Tarifs', href: '#formats' },
+  { label: 'Espace Grossiste', href: '#business' },
+  { label: 'Avis & Retours', href: '#avis' },
+  { label: 'Contact', href: '#contact' },
+];
 
 export function Footer() {
-  const currentYear = new Date().getFullYear();
-
   return (
-    <footer className="bg-surface-950 text-surface-300 pt-16 pb-12 border-t border-brand-900/40">
-      <Container size="lg">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-surface-800">
-          {/* Brand & Description (2 cols) */}
-          <div className="lg:col-span-2 space-y-4">
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-xl bg-black p-1.5 flex items-center justify-center border border-brand-500/40">
+    <footer className="bg-[#07090E] text-white pt-16 pb-12 border-t border-[#1F2637]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 pb-12 border-b border-[#1F2637]">
+          {/* Brand Info */}
+          <div className="lg:col-span-5">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="relative w-10 h-10 rounded-full overflow-hidden bg-[#0A0D14] p-0.5 border border-[#D4AF37]/50">
                 <Image
-                  src={siteConfig.logo.transparent}
-                  alt={siteConfig.name}
-                  width={40}
-                  height={40}
+                  src="/images/brand/Logo-gold-transparent.png"
+                  alt="Nathy Essences Parfumerie"
+                  fill
                   className="object-contain"
                 />
               </div>
-              <div>
-                <span className="font-extrabold text-2xl text-white tracking-tight font-heading block">
-                  Glow <span className="text-brand-400 font-serif italic">&</span> Shine
-                </span>
-                <span className="text-xs text-brand-300 font-medium block uppercase tracking-wider">
-                  Beauty and Fashion • Dakar
-                </span>
-              </div>
+              <span className="text-xl font-serif font-bold tracking-wider text-white">
+                NATHY ESSENCES
+              </span>
             </div>
-            <p className="text-sm text-surface-400 leading-relaxed max-w-sm">
-              {siteConfig.tagline}. Un seul endroit à Ouest-Foire pour prendre soin de vous de la tête aux pieds.
+            <p className="text-gray-400 text-sm leading-relaxed mb-6 font-light max-w-sm">
+              Votre parfumerie d’extraits concentrés et d’essences pures à Abidjan. 
+              Le luxe des grands créateurs accessible à tous au millilitre dès 1 500 FCFA.
             </p>
-            <div className="pt-2 flex items-center gap-2 text-xs text-brand-300 font-medium">
-              <Sparkles className="w-4 h-4 text-brand-400" />
-              <span>Ouvert 7 jours sur 7 (09h00 - 20h00)</span>
+            <div className="flex items-center gap-2 text-xs text-[#D4AF37] font-medium">
+              <Sparkles className="w-4 h-4" />
+              <span>Essences Pures · Tenue +48H · Formats 10ml à 100ml</span>
             </div>
           </div>
 
-          {/* Services Links */}
-          <div>
-            <h3 className="text-white font-bold text-sm uppercase tracking-wider mb-4">
-              Prestations
-            </h3>
-            <ul className="space-y-2.5 text-sm">
-              {footerNavigation.services.map((item) => (
-                <li key={item.label}>
-                  <a
-                    href={item.href}
-                    className="hover:text-brand-300 transition-colors"
-                  >
+          {/* Navigation Links */}
+          <div className="lg:col-span-3">
+            <h4 className="text-xs uppercase font-bold tracking-widest text-[#D4AF37] mb-4">
+              Navigation
+            </h4>
+            <ul className="space-y-2.5 text-sm text-gray-400">
+              {navigationLinks.map((item) => (
+                <li key={item.href}>
+                  <Link href={item.href} className="hover:text-white transition-colors">
                     {item.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Company Links */}
-          <div>
-            <h3 className="text-white font-bold text-sm uppercase tracking-wider mb-4">
-              Le Salon
-            </h3>
-            <ul className="space-y-2.5 text-sm">
-              {footerNavigation.company.map((item) => (
-                <li key={item.label}>
-                  <a
-                    href={item.href}
-                    className="hover:text-brand-300 transition-colors"
-                  >
-                    {item.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Contact Details */}
-          <div>
-            <h3 className="text-white font-bold text-sm uppercase tracking-wider mb-4">
-              Nous Trouver
-            </h3>
-            <ul className="space-y-3 text-sm text-surface-400">
-              <li className="flex items-start gap-2.5">
-                <MapPin className="w-4 h-4 text-brand-400 shrink-0 mt-0.5" />
-                <span>
-                  {siteConfig.contact.address.neighborhood}, {siteConfig.contact.address.city}, {siteConfig.contact.address.country}
-                  <span className="block text-xs text-surface-500 mt-0.5">{siteConfig.contact.landmarkNotice}</span>
-                </span>
-              </li>
-              <li className="flex items-center gap-2.5">
-                <MessageCircle className="w-4 h-4 text-emerald-400 shrink-0" />
+          {/* Contact Direct */}
+          <div className="lg:col-span-4">
+            <h4 className="text-xs uppercase font-bold tracking-widest text-[#D4AF37] mb-4">
+              Contact & Commandes
+            </h4>
+            <div className="space-y-3 text-sm text-gray-400">
+              <div className="flex items-start gap-2.5">
+                <MapPin className="w-4 h-4 text-[#D4AF37] shrink-0 mt-0.5" />
+                <span>Abidjan, Côte d’Ivoire — Livraison express</span>
+              </div>
+              <div className="flex items-center gap-2.5">
+                <Phone className="w-4 h-4 text-[#D4AF37] shrink-0" />
+                <a href={`tel:${siteConfig.contact.phone}`} className="hover:text-white transition-colors">
+                  {siteConfig.contact.phoneDisplay}
+                </a>
+              </div>
+              <div className="flex items-center gap-2.5">
+                <MessageCircle className="w-4 h-4 text-[#D4AF37] shrink-0" />
                 <a
                   href={siteConfig.contact.whatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-emerald-300 transition-colors font-semibold text-emerald-400"
+                  className="hover:text-[#D4AF37] transition-colors font-medium text-white"
                 >
-                  WhatsApp: {siteConfig.contact.phoneDisplay}
+                  WhatsApp : +225 05 64 25 15 34
                 </a>
-              </li>
-              <li className="flex items-center gap-2.5">
-                <Phone className="w-4 h-4 text-brand-400 shrink-0" />
-                <a
-                  href={`tel:${siteConfig.contact.phone}`}
-                  className="hover:text-white transition-colors font-medium text-surface-300"
-                >
-                  {siteConfig.contact.phoneDisplay}
-                </a>
-              </li>
-              <li className="flex items-center gap-2.5">
-                <Mail className="w-4 h-4 text-brand-400 shrink-0" />
-                <a
-                  href={`mailto:${siteConfig.contact.email}`}
-                  className="hover:text-white transition-colors truncate text-xs"
-                >
-                  {siteConfig.contact.email}
-                </a>
-              </li>
-              <li className="flex items-start gap-2.5 pt-1 text-xs text-surface-400">
-                <Clock className="w-4 h-4 text-brand-400 shrink-0 mt-0.5" />
-                <div>
-                  {siteConfig.contact.openingHours.map((h, i) => (
-                    <div key={i} className="text-brand-200">
-                      {h.days} : {h.hours}
-                    </div>
-                  ))}
-                </div>
-              </li>
-            </ul>
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Subfooter */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-surface-400">
-          <p>© {currentYear} {siteConfig.legal.companyName} • Tous droits réservés.</p>
-          <div className="flex items-center gap-6">
-            {footerNavigation.legal.map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
-                className="hover:text-brand-300 transition-colors"
-              >
-                {item.label}
-              </a>
-            ))}
-            <a
-              href="#"
-              className="inline-flex items-center gap-1 hover:text-white transition-colors"
-              aria-label="Retour en haut de la page"
-            >
-              <ArrowUp className="w-3.5 h-3.5" />
-              <span>Haut</span>
-            </a>
-          </div>
+        {/* Bottom copyright */}
+        <div className="pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-gray-500">
+          <p>© {new Date().getFullYear()} {siteConfig.legal.companyName}. Tous droits réservés.</p>
+          <p className="flex items-center gap-2">
+            <span>Créé avec excellence par l’Agence Weshmorayy</span>
+          </p>
         </div>
-      </Container>
+      </div>
     </footer>
   );
 }

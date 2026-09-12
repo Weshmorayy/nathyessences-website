@@ -1,68 +1,85 @@
 import React from 'react';
-import { MessageCircle, Phone, Sparkles, MapPin, Clock } from 'lucide-react';
 import { siteConfig } from '@/config/site';
-import { Container } from '@/components/ui/Container';
-import { Button } from '@/components/ui/Button';
+import { MessageCircle, Phone, MapPin, Clock, Sparkles } from 'lucide-react';
 
 export function ContactCTA() {
-  const { contact } = siteConfig;
-
   return (
-    <section className="py-16 sm:py-24 bg-gradient-to-br from-surface-950 via-[#16130E] to-surface-950 text-white relative overflow-hidden">
-      {/* Decorative Warm Gold Glow Circles */}
-      <div className="absolute -top-24 -left-24 w-96 h-96 bg-brand-500/20 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-amber-500/15 rounded-full blur-3xl pointer-events-none" />
+    <section id="contact" className="py-24 bg-[#101522] border-b border-[#232D42]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="bg-gradient-to-br from-[#151C2C] via-[#0A0D14] to-[#151C2C] rounded-3xl p-8 sm:p-14 lg:p-20 text-white border-2 border-[#D4AF37]/30 shadow-2xl relative overflow-hidden">
+          {/* Subtle gold glow */}
+          <div className="absolute top-0 right-0 w-96 h-96 bg-[#D4AF37]/10 rounded-full blur-3xl pointer-events-none" />
 
-      <Container size="md" className="relative z-10 text-center space-y-8">
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-500/20 border border-brand-400/40 text-brand-300 text-xs font-bold uppercase tracking-wider">
-          <Sparkles className="w-3.5 h-3.5 text-brand-400" />
-          <span>Réservation Rapide & Sans Attente</span>
-        </div>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 relative z-10 items-center">
+            {/* Left Content */}
+            <div className="lg:col-span-7">
+              <span className="text-xs uppercase font-bold tracking-widest text-[#D4AF37] block mb-3">
+                {siteConfig.contactSection.badge}
+              </span>
+              <h2 className="text-3xl sm:text-5xl font-serif font-bold leading-tight mb-6">
+                Composez Votre Flacon ou Lancez Votre Activité
+              </h2>
+              <p className="text-gray-300 text-base sm:text-lg leading-relaxed mb-8 max-w-xl font-light">
+                Écrivez-nous directement sur WhatsApp pour toute commande de détail (dès 1 500 F) 
+                ou pour recevoir la grille tarifaire complète pour revendeurs.
+              </p>
 
-        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight font-heading">
-          Envie d’une mise en beauté d’exception ?
-        </h2>
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+                <a
+                  href={siteConfig.contact.whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full bg-gradient-to-r from-[#D4AF37] to-[#B47B2B] text-black text-xs font-bold uppercase tracking-wider hover:brightness-110 transition-all shadow-lg"
+                >
+                  <MessageCircle className="w-4 h-4 fill-black" />
+                  <span>Discuter sur WhatsApp (+225 05 64 25 15 34)</span>
+                </a>
+                <a
+                  href={`tel:${siteConfig.contact.phone}`}
+                  className="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-full bg-white/5 hover:bg-white/10 text-white border border-[#232D42] text-xs font-bold uppercase tracking-wider transition-colors"
+                >
+                  <Phone className="w-4 h-4 text-[#D4AF37]" />
+                  <span>{siteConfig.contact.phoneDisplay}</span>
+                </a>
+              </div>
+            </div>
 
-        <p className="text-base sm:text-lg text-surface-300 max-w-xl mx-auto leading-relaxed">
-          Rejoignez-nous à Ouest-Foire ou réservez votre créneau directement sur WhatsApp avec notre équipe. Nous sommes ouverts 7j/7 de 09h à 20h.
-        </p>
+            {/* Right Quick Info Card */}
+            <div className="lg:col-span-5 bg-[#0A0D14]/90 backdrop-blur-md rounded-2xl p-8 border border-[#232D42] space-y-6">
+              <div className="flex gap-4 items-start">
+                <div className="w-10 h-10 rounded-xl bg-[#D4AF37]/10 text-[#D4AF37] flex items-center justify-center shrink-0">
+                  <MapPin className="w-5 h-5" />
+                </div>
+                <div>
+                  <h4 className="text-xs font-bold text-[#D4AF37] uppercase tracking-wider mb-1">
+                    Livraison & Retrait
+                  </h4>
+                  <p className="text-sm text-gray-200">
+                    Livraison express à domicile et au bureau à Abidjan & expéditions à l’intérieur du pays.
+                  </p>
+                </div>
+              </div>
 
-        {/* Action Buttons */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
-          <Button
-            href={contact.whatsappUrl}
-            isExternal
-            variant="glow"
-            size="lg"
-            className="w-full sm:w-auto bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-500 hover:to-emerald-600 text-white shadow-xl shadow-emerald-600/30"
-          >
-            <MessageCircle className="w-5 h-5 mr-2" />
-            <span>Réserver via WhatsApp</span>
-          </Button>
-
-          <Button
-            href={`tel:${contact.phone}`}
-            variant="outline"
-            size="lg"
-            className="w-full sm:w-auto border-brand-400/60 hover:bg-white/10 text-white"
-          >
-            <Phone className="w-5 h-5 mr-2 text-brand-400" />
-            <span>{contact.phoneDisplay}</span>
-          </Button>
-        </div>
-
-        {/* Location & Hours note */}
-        <div className="pt-6 border-t border-white/10 flex flex-wrap items-center justify-center gap-6 text-xs text-surface-300">
-          <div className="flex items-center gap-1.5">
-            <MapPin className="w-4 h-4 text-brand-400" />
-            <span>Ouest-Foire, Dakar (proche VDN / CICES)</span>
+              <div className="flex gap-4 items-start">
+                <div className="w-10 h-10 rounded-xl bg-[#D4AF37]/10 text-[#D4AF37] flex items-center justify-center shrink-0">
+                  <Clock className="w-5 h-5" />
+                </div>
+                <div>
+                  <h4 className="text-xs font-bold text-[#D4AF37] uppercase tracking-wider mb-1">
+                    Horaires de Traitement
+                  </h4>
+                  <p className="text-sm text-gray-200">
+                    Lundi – Samedi : 08h00 – 20h00
+                  </p>
+                  <p className="text-xs text-gray-400 mt-1">
+                    Commandes WhatsApp 7j/7 sans interruption.
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="flex items-center gap-1.5">
-            <Clock className="w-4 h-4 text-brand-400" />
-            <span>7j/7 de 09h00 à 20h00</span>
-          </div>
         </div>
-      </Container>
+      </div>
     </section>
   );
 }

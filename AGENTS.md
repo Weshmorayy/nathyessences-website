@@ -43,3 +43,24 @@ Support 4 target environments seamlessly:
 2. **Coolify**: Standard deployment using the included multi-stage `Dockerfile`.
 3. **Netlify**: Deploy static `/out` or Next.js runtime plugin.
 4. **Vercel**: Zero-config deployment with native App Router support.
+
+---
+
+## 6. System Reorganization, Anti-AI & Workflow References
+- **Master Plan & Architecture**: Always consult [`ProjectInfo/[PLAN]_SYSTEM_REORGANIZATION_AND_WORKFLOW.md`](file:///data/data/com.termux/files/home/website-template/ProjectInfo/%5BPLAN%5D_SYSTEM_REORGANIZATION_AND_WORKFLOW.md)
+- **Anti-AI Design & Copywriting Guide**: Follow [`ProjectInfo/SpecialGuides/[GUIDE]_AVOIDING_AI_LOOK_AND_FEEL.md`](file:///data/data/com.termux/files/home/website-template/ProjectInfo/SpecialGuides/%5BGUIDE%5D_AVOIDING_AI_LOOK_AND_FEEL.md)
+- **Projects Registry**: Keep [`ProjectInfo/PROJECTS_INDEX.md`](file:///data/data/com.termux/files/home/website-template/ProjectInfo/PROJECTS_INDEX.md) up to date.
+- **Client Onboarding**: Use `new-client` command in Termux. Never start coding without proposing the Visual Foundation to the USER first.
+
+---
+
+## 7. Critical UI/UX Rules Learned
+1. **White Product Backgrounds**: Any product photo container with a white source background MUST be `#FFFFFF` pure (`bg-white`) without harsh borders to blend seamlessly.
+2. **Drawer Overlay Rule**: All navigation & cart drawers must be rendered at the root level with `!z-[999999]`, slide in from the **right side**, and lock background scroll.
+3. **Uncrowded Mobile Header**: Mobile headers must remain minimal (Logo + Cart + Burger). Search bars belongs **in-page** on `/boutique`.
+4. **Multi-Page Architecture**: E-commerce stores must be structured across distinct pages (`/`, `/boutique`, `/a-propos`, `/livraison-faq`, `/contact`) instead of cramped single landing pages.
+5. **No Raw Markdown in JSX**: Always use semantic HTML (`<strong>`, `<span>`) for bold and highlighted texts in code.
+6. **Automatic GitHub Repo Creation & Push**: Always create the GitHub repository (`Weshmorayy/<project>-website`) and push the code automatically upon project completion. Never wait for user prompt to push.
+7. **Always Confirm Push & Vercel-Ready**: Always clearly state in final reports that the repository has been pushed to GitHub and is 100% Vercel-ready (zero-config, Next.js App Router static/SSG export compatible).
+
+

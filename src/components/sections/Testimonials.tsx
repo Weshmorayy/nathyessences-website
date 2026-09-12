@@ -1,58 +1,53 @@
 import React from 'react';
-import { Star, Quote, CheckCircle2 } from 'lucide-react';
 import { siteConfig } from '@/config/site';
-import { Section } from '@/components/ui/Section';
-import { Card } from '@/components/ui/Card';
+import { Star, MessageSquare, Quote } from 'lucide-react';
 
 export function Testimonials() {
-  const { testimonials } = siteConfig;
-
   return (
-    <Section
-      id="testimonials"
-      badge={testimonials.badge}
-      title={testimonials.title}
-      subtitle={testimonials.subtitle}
-      background="subtle"
-    >
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {testimonials.items.map((item) => (
-          <Card key={item.id} className="flex flex-col justify-between relative bg-white border-surface-200 shadow-sm">
-            <div>
-              {/* Star Rating & Quote Icon */}
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex text-amber-500">
+    <section id="avis" className="py-24 bg-[#101522] border-b border-[#232D42]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#151C2C] border border-[#D4AF37]/30 text-[#D4AF37] text-xs font-semibold uppercase tracking-wider mb-4">
+            <MessageSquare className="w-3.5 h-3.5 text-[#D4AF37]" />
+            <span>{siteConfig.testimonials.badge}</span>
+          </div>
+          <h2 className="text-3xl sm:text-5xl font-serif font-bold text-white mb-4">
+            {siteConfig.testimonials.title}
+          </h2>
+          <p className="text-gray-300 font-light text-base sm:text-lg">
+            {siteConfig.testimonials.subtitle}
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {siteConfig.testimonials.items.map((item) => (
+            <div
+              key={item.id}
+              className="bg-[#151C2C] rounded-2xl p-8 border border-[#232D42] flex flex-col justify-between hover:border-[#D4AF37]/40 transition-all shadow-xl"
+            >
+              <div>
+                <div className="flex items-center gap-1 text-[#D4AF37] mb-6">
                   {[...Array(item.rating)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-amber-500" />
+                    <Star key={i} className="w-4 h-4 fill-current" />
                   ))}
                 </div>
-                <Quote className="w-6 h-6 text-brand-300" />
-              </div>
-
-              {/* Review Text */}
-              <p className="text-sm sm:text-base text-surface-700 leading-relaxed italic mb-6">
-                « {item.content} »
-              </p>
-            </div>
-
-            {/* Author Footer */}
-            <div className="pt-4 border-t border-surface-100 flex items-center justify-between">
-              <div>
-                <h4 className="font-bold text-sm text-surface-950">
-                  {item.author}
-                </h4>
-                <p className="text-xs text-surface-500">
-                  {item.role} {item.location ? `• ${item.location}` : ''}
+                <Quote className="w-8 h-8 text-[#D4AF37]/20 mb-3" />
+                <p className="text-sm text-gray-200 leading-relaxed italic mb-6 font-light">
+                  « {item.content} »
                 </p>
               </div>
-              <div className="flex items-center gap-1 text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
-                <CheckCircle2 className="w-3 h-3 text-emerald-600" />
-                <span>Vérifié</span>
+
+              <div className="pt-4 border-t border-white/5 flex items-center justify-between">
+                <div>
+                  <h4 className="font-serif font-bold text-sm text-white">{item.author}</h4>
+                  <span className="text-xs text-gray-400">{item.role} · {item.location}</span>
+                </div>
+                <span className="text-[11px] text-[#D4AF37] font-medium">{item.date}</span>
               </div>
             </div>
-          </Card>
-        ))}
+          ))}
+        </div>
       </div>
-    </Section>
+    </section>
   );
 }
