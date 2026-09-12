@@ -94,7 +94,7 @@ export function Footer() {
         <div className="pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-gray-500">
           <p>© {new Date().getFullYear()} {siteConfig.legal.companyName}. Tous droits réservés.</p>
           <p className="flex items-center gap-2">
-            <span>Créé avec excellence par l’Agence Weshmorayy</span>
+            <span>Parfumerie d’Essences Pures • Abidjan</span>
           </p>
         </div>
       </div>

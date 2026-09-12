@@ -22,7 +22,7 @@ export default function MentionsLegalesPage() {
               Mentions Légales
             </h1>
             <p className="mt-2 text-surface-500 text-sm">
-              Informations légales et mentions obligatoires du site officiel Glow & Shine.
+              Informations légales et mentions obligatoires du site officiel {siteConfig.legal.companyName}.
             </p>
           </header>
 

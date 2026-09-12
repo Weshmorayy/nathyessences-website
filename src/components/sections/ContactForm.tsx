@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Phone, Mail, MapPin, Clock, MessageCircle, Send, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Phone, Mail, MapPin, Clock, MessageCircle, CheckCircle2 } from 'lucide-react';
 import { siteConfig } from '@/config/site';
 import { Section } from '@/components/ui/Section';
 import { Card } from '@/components/ui/Card';
@@ -12,31 +12,31 @@ export function ContactForm() {
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
-    service: '',
-    date: '',
+    format: '',
+    essence: '',
+    deliveryLocation: '',
     message: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setErrorMessage('');
 
-    // Pre-fill WhatsApp message and launch
-    const text = `*Nouvelle Demande de Rendez-vous - Glow & Shine*%0A` +
+    // Pre-fill WhatsApp message tailored for Nathy Essences
+    const text = `*Nouvelle Commande / Demande d'Essence - Nathy Essences*%0A` +
       `👤 *Nom :* ${encodeURIComponent(formData.name)}%0A` +
       `📞 *Téléphone :* ${encodeURIComponent(formData.phone)}%0A` +
-      `💇‍♀️ *Prestation :* ${encodeURIComponent(formData.service || 'Non spécifiée')}%0A` +
-      `📅 *Date souhaitée :* ${encodeURIComponent(formData.date || 'Dès que possible')}%0A` +
-      `💬 *Précisions :* ${encodeURIComponent(formData.message || 'Aucun message particulier')}`;
+      `🧪 *Essence(s) souhaitée(s) :* ${encodeURIComponent(formData.essence || 'Conseil personnalisé')}%0A` +
+      `📏 *Format / Type :* ${encodeURIComponent(formData.format || '10ml / Non précisé')}%0A` +
+      `📍 *Commune / Quartier :* ${encodeURIComponent(formData.deliveryLocation || 'Abidjan')}%0A` +
+      `💬 *Précisions / Mix :* ${encodeURIComponent(formData.message || 'Aucune')}`;
 
     setTimeout(() => {
       setIsSubmitting(false);
       setSubmitted(true);
-      window.open(`https://wa.me/221771644848?text=${text}`, '_blank');
+      window.open(`https://wa.me/${contact.whatsappNumber}?text=${text}`, '_blank');
     }, 600);
   };
 
@@ -51,32 +51,32 @@ export function ContactForm() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
         {/* Left Information Column (5 cols) */}
         <div className="lg:col-span-5 space-y-6">
-          <div className="p-6 rounded-2xl bg-surface-950 text-white space-y-6 border border-brand-500/30 shadow-lg">
-            <h3 className="text-xl font-bold text-white flex items-center gap-2">
-              <span>Glow & Shine Dakar</span>
+          <div className="p-6 sm:p-8 rounded-2xl bg-[#121A2E] text-white space-y-6 border border-[#232D42] shadow-xl">
+            <h3 className="text-xl font-bold font-serif text-white flex items-center gap-2">
+              <span>{siteConfig.shortName} Parfumerie</span>
             </h3>
-            <p className="text-sm text-surface-300 leading-relaxed">
-              Venez vivre une expérience beauté conviviale et chaleureuse. Notre équipe vous accueille 7 jours sur 7.
+            <p className="text-sm text-gray-300 leading-relaxed font-light">
+              Des essences pures de haute parfumerie au millilitre. Notre équipe vous conseille et prépare vos flacons avec soin.
             </p>
 
             <div className="space-y-4 text-sm">
               <div className="flex items-start gap-3">
-                <MapPin className="w-5 h-5 text-brand-400 shrink-0 mt-0.5" />
+                <MapPin className="w-5 h-5 text-[#E8C170] shrink-0 mt-0.5" />
                 <div>
-                  <p className="font-semibold text-white">Localisation</p>
-                  <p className="text-surface-300">
-                    {contact.address.neighborhood}, {contact.address.city}, {contact.address.country}
+                  <p className="font-semibold text-white">Localisation & Livraison</p>
+                  <p className="text-gray-300">
+                    {contact.address.city}, {contact.address.country}
                   </p>
-                  <p className="text-xs text-brand-300 mt-0.5">{contact.landmarkNotice}</p>
+                  <p className="text-xs text-[#E8C170] mt-0.5">{contact.landmarkNotice}</p>
                 </div>
               </div>
 
               <div className="flex items-start gap-3">
-                <Clock className="w-5 h-5 text-brand-400 shrink-0 mt-0.5" />
+                <Clock className="w-5 h-5 text-[#E8C170] shrink-0 mt-0.5" />
                 <div>
-                  <p className="font-semibold text-white">Horaires d’ouverture</p>
+                  <p className="font-semibold text-white">Horaires d’accueil & Commandes</p>
                   {contact.openingHours.map((h, idx) => (
-                    <p key={idx} className="text-surface-300">
+                    <p key={idx} className="text-gray-300">
                       {h.days} : {h.hours}
                     </p>
                   ))}
@@ -86,7 +86,7 @@ export function ContactForm() {
               <div className="flex items-center gap-3">
                 <MessageCircle className="w-5 h-5 text-emerald-400 shrink-0" />
                 <div>
-                  <p className="font-semibold text-white">WhatsApp Direct</p>
+                  <p className="font-semibold text-white">WhatsApp Commandes</p>
                   <a
                     href={contact.whatsappUrl}
                     target="_blank"
@@ -99,12 +99,12 @@ export function ContactForm() {
               </div>
 
               <div className="flex items-center gap-3">
-                <Phone className="w-5 h-5 text-brand-400 shrink-0" />
+                <Phone className="w-5 h-5 text-[#E8C170] shrink-0" />
                 <div>
-                  <p className="font-semibold text-white">Téléphone</p>
+                  <p className="font-semibold text-white">Appels Directs</p>
                   <a
                     href={`tel:${contact.phone}`}
-                    className="text-surface-300 hover:text-white transition-colors"
+                    className="text-gray-300 hover:text-white transition-colors"
                   >
                     {contact.phoneDisplay}
                   </a>
@@ -112,12 +112,12 @@ export function ContactForm() {
               </div>
 
               <div className="flex items-center gap-3">
-                <Mail className="w-5 h-5 text-brand-400 shrink-0" />
+                <Mail className="w-5 h-5 text-[#E8C170] shrink-0" />
                 <div>
                   <p className="font-semibold text-white">Email</p>
                   <a
                     href={`mailto:${contact.email}`}
-                    className="text-surface-300 hover:text-white transition-colors text-xs"
+                    className="text-gray-300 hover:text-white transition-colors text-xs"
                   >
                     {contact.email}
                   </a>
@@ -129,12 +129,12 @@ export function ContactForm() {
 
         {/* Right Form Column (7 cols) */}
         <div className="lg:col-span-7">
-          <Card className="p-6 sm:p-8 bg-white border-surface-200 shadow-md">
+          <Card className="p-6 sm:p-8 bg-[#FAF9F6] border-[#E8E2D8] shadow-sm rounded-2xl">
             <div className="mb-6">
-              <h4 className="text-xl font-bold text-surface-950 mb-1">
+              <h4 className="text-xl font-bold font-serif text-[#14171F] mb-1">
                 {contactSection.formTitle}
               </h4>
-              <p className="text-xs sm:text-sm text-surface-600">
+              <p className="text-xs sm:text-sm text-[#5C6479]">
                 {contactSection.formDescription}
               </p>
             </div>
@@ -144,11 +144,11 @@ export function ContactForm() {
                 <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto">
                   <CheckCircle2 className="w-8 h-8" />
                 </div>
-                <h5 className="text-xl font-bold text-surface-950">
-                  Votre demande a été transmise !
+                <h5 className="text-xl font-bold text-[#14171F]">
+                  Votre demande a été préparée !
                 </h5>
-                <p className="text-sm text-surface-600 max-w-md mx-auto">
-                  Si WhatsApp ne s’est pas ouvert automatiquement, vous pouvez nous écrire directement au {contact.phoneDisplay}.
+                <p className="text-sm text-[#5C6479] max-w-md mx-auto">
+                  Si WhatsApp ne s’est pas ouvert automatiquement, contactez-nous directement au {contact.phoneDisplay}.
                 </p>
                 <Button
                   onClick={() => setSubmitted(false)}
@@ -156,15 +156,15 @@ export function ContactForm() {
                   size="sm"
                   className="mt-4"
                 >
-                  Envoyer une autre demande
+                  Nouvelle demande
                 </Button>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label htmlFor="name" className="block text-xs font-bold text-surface-700 uppercase tracking-wider mb-1.5">
-                      Nom complet *
+                    <label htmlFor="name" className="block text-xs font-bold text-[#14171F] uppercase tracking-wider mb-1.5">
+                      Votre Nom *
                     </label>
                     <input
                       type="text"
@@ -172,12 +172,12 @@ export function ContactForm() {
                       required
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      placeholder="Ex: Awa Diop"
-                      className="w-full px-4 py-2.5 rounded-xl border border-surface-300 bg-white text-surface-900 placeholder-surface-400 focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm"
+                      placeholder="Ex: Kouamé Sarah"
+                      className="w-full px-4 py-2.5 rounded-xl border border-[#E8E2D8] bg-white text-[#14171F] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#C59A3F] text-sm"
                     />
                   </div>
                   <div>
-                    <label htmlFor="phone" className="block text-xs font-bold text-surface-700 uppercase tracking-wider mb-1.5">
+                    <label htmlFor="phone" className="block text-xs font-bold text-[#14171F] uppercase tracking-wider mb-1.5">
                       Téléphone / WhatsApp *
                     </label>
                     <input
@@ -186,59 +186,75 @@ export function ContactForm() {
                       required
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      placeholder="Ex: +221 77 ... ou 06 ..."
-                      className="w-full px-4 py-2.5 rounded-xl border border-surface-300 bg-white text-surface-900 placeholder-surface-400 focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm"
+                      placeholder="Ex: +225 05 ..."
+                      className="w-full px-4 py-2.5 rounded-xl border border-[#E8E2D8] bg-white text-[#14171F] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#C59A3F] text-sm"
                     />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label htmlFor="service" className="block text-xs font-bold text-surface-700 uppercase tracking-wider mb-1.5">
-                      Prestation souhaitée
-                    </label>
-                    <select
-                      id="service"
-                      value={formData.service}
-                      onChange={(e) => setFormData({ ...formData, service: e.target.value })}
-                      className="w-full px-4 py-2.5 rounded-xl border border-surface-300 bg-white text-surface-900 focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm"
-                    >
-                      <option value="">Sélectionnez un soin...</option>
-                      {siteConfig.services.items.map((s) => (
-                        <option key={s.id} value={s.title}>
-                          {s.title}
-                        </option>
-                      ))}
-                      <option value="Forfait Mariée / Événement">Forfait Mariée / Événement</option>
-                      <option value="Autre demande">Autre prestation spécifique</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label htmlFor="date" className="block text-xs font-bold text-surface-700 uppercase tracking-wider mb-1.5">
-                      Date ou créneau souhaité
+                    <label htmlFor="essence" className="block text-xs font-bold text-[#14171F] uppercase tracking-wider mb-1.5">
+                      Essence(s) ou Référence(s)
                     </label>
                     <input
                       type="text"
-                      id="date"
-                      value={formData.date}
-                      onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                      placeholder="Ex: Samedi après-midi"
-                      className="w-full px-4 py-2.5 rounded-xl border border-surface-300 bg-white text-surface-900 placeholder-surface-400 focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm"
+                      id="essence"
+                      value={formData.essence}
+                      onChange={(e) => setFormData({ ...formData, essence: e.target.value })}
+                      placeholder="Ex: Imagination LV, Baccarat 540..."
+                      className="w-full px-4 py-2.5 rounded-xl border border-[#E8E2D8] bg-white text-[#14171F] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#C59A3F] text-sm"
                     />
+                  </div>
+                  <div>
+                    <label htmlFor="format" className="block text-xs font-bold text-[#14171F] uppercase tracking-wider mb-1.5">
+                      Format souhaité
+                    </label>
+                    <select
+                      id="format"
+                      value={formData.format}
+                      onChange={(e) => setFormData({ ...formData, format: e.target.value })}
+                      className="w-full px-4 py-2.5 rounded-xl border border-[#E8E2D8] bg-white text-[#14171F] focus:outline-none focus:ring-2 focus:ring-[#C59A3F] text-sm"
+                    >
+                      <option value="">Sélectionnez un format...</option>
+                      <option value="Format Pocket 10ml (1 500 F)">Format Pocket 10ml (1 500 F)</option>
+                      <option value="Format 20ml (3 500 F)">Format 20ml (3 500 F)</option>
+                      <option value="Format 25ml (4 000 F)">Format 25ml (4 000 F)</option>
+                      <option value="Format 35ml (6 500 F)">Format 35ml (6 500 F)</option>
+                      <option value="Format 40ml (7 500 F)">Format 40ml (7 500 F)</option>
+                      <option value="Format 60ml (10 000 F)">Format 60ml (10 000 F)</option>
+                      <option value="Grand Format 100ml (20 000 F)">Grand Format 100ml (20 000 F)</option>
+                      <option value="Pack Duo Layering (2x35ml - 12 000 F)">Pack Duo Layering (2x35ml - 12 000 F)</option>
+                      <option value="Pack Démarrage Revendeur / Grossiste">Pack Démarrage Revendeur / Grossiste</option>
+                    </select>
                   </div>
                 </div>
 
                 <div>
-                  <label htmlFor="message" className="block text-xs font-bold text-surface-700 uppercase tracking-wider mb-1.5">
-                    Détails ou questions (optionnel)
+                  <label htmlFor="deliveryLocation" className="block text-xs font-bold text-[#14171F] uppercase tracking-wider mb-1.5">
+                    Lieu ou Commune de livraison (Abidjan / Intérieur)
+                  </label>
+                  <input
+                    type="text"
+                    id="deliveryLocation"
+                    value={formData.deliveryLocation}
+                    onChange={(e) => setFormData({ ...formData, deliveryLocation: e.target.value })}
+                    placeholder="Ex: Cocody Angré, Plateau, Marcory, Yopougon, Bouaké..."
+                    className="w-full px-4 py-2.5 rounded-xl border border-[#E8E2D8] bg-white text-[#14171F] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#C59A3F] text-sm"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="message" className="block text-xs font-bold text-[#14171F] uppercase tracking-wider mb-1.5">
+                    Précisions ou Questions (Optionnel)
                   </label>
                   <textarea
                     id="message"
                     rows={3}
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    placeholder="Longueur des mèches, couleur souhaitée, motif de nail art..."
-                    className="w-full px-4 py-2.5 rounded-xl border border-surface-300 bg-white text-surface-900 placeholder-surface-400 focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm"
+                    placeholder="Détails sur votre commande, question sur un mélange ou demande de devis revendeur..."
+                    className="w-full px-4 py-2.5 rounded-xl border border-[#E8E2D8] bg-white text-[#14171F] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#C59A3F] text-sm"
                   />
                 </div>
 
@@ -247,10 +263,10 @@ export function ContactForm() {
                   variant="primary"
                   size="md"
                   disabled={isSubmitting}
-                  className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold"
+                  className="w-full bg-[#121A2E] hover:bg-[#1C2845] text-white font-bold py-3.5 shadow-md"
                 >
-                  <MessageCircle className="w-4 h-4 mr-2" />
-                  <span>{isSubmitting ? 'Préparation...' : 'Confirmer et ouvrir sur WhatsApp'}</span>
+                  <MessageCircle className="w-4 h-4 mr-2 text-emerald-400" />
+                  <span>{isSubmitting ? 'Préparation...' : 'Envoyer ma commande sur WhatsApp'}</span>
                 </Button>
               </form>
             )}

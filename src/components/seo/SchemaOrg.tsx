@@ -1,13 +1,13 @@
 import { siteConfig } from '@/config/site';
 
 interface SchemaOrgProps {
-  type?: 'BeautySalon' | 'HairSalon' | 'LocalBusiness' | 'Organization';
+  type?: 'Store' | 'LocalBusiness' | 'Organization';
 }
 
-export function SchemaOrg({ type = 'BeautySalon' }: SchemaOrgProps) {
+export function SchemaOrg({ type = 'Store' }: SchemaOrgProps) {
   const localBusinessSchema = {
     '@context': 'https://schema.org',
-    '@type': ['BeautySalon', 'HairSalon', 'LocalBusiness'],
+    '@type': ['Store', 'LocalBusiness'],
     '@id': `${siteConfig.url}/#organization`,
     name: siteConfig.name,
     legalName: siteConfig.legal.companyName,
@@ -21,13 +21,13 @@ export function SchemaOrg({ type = 'BeautySalon' }: SchemaOrgProps) {
       '@type': 'PostalAddress',
       streetAddress: siteConfig.contact.address.street,
       addressLocality: siteConfig.contact.address.city,
-      addressRegion: 'Dakar',
+      addressRegion: 'Abidjan',
       addressCountry: siteConfig.contact.address.countryCode,
     },
     geo: {
       '@type': 'GeoCoordinates',
-      latitude: 14.7475,
-      longitude: -17.4725,
+      latitude: 5.3600,
+      longitude: -4.0083,
     },
     openingHoursSpecification: [
       {
@@ -39,16 +39,15 @@ export function SchemaOrg({ type = 'BeautySalon' }: SchemaOrgProps) {
           'Thursday',
           'Friday',
           'Saturday',
-          'Sunday',
         ],
-        opens: '09:00',
+        opens: '08:00',
         closes: '20:00',
       },
     ],
     sameAs: siteConfig.socials.map((s) => s.url),
     priceRange: 'FCFA',
     currenciesAccepted: 'XOF',
-    paymentAccepted: 'Cash, Wave, Orange Money',
+    paymentAccepted: 'Wave, Orange Money, Moov Money, MTN, Espèces',
   };
 
   const faqSchema = {

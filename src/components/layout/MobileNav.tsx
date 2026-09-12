@@ -56,10 +56,10 @@ export function MobileNav() {
               </div>
               <div>
                 <span className="font-extrabold text-lg text-surface-950 block leading-tight font-heading">
-                  Glow & Shine
+                  {siteConfig.shortName}
                 </span>
                 <span className="text-[10px] font-semibold text-brand-700 block">
-                  Ouest-Foire, Dakar
+                  {siteConfig.contact.address.city}, {siteConfig.contact.address.country}
                 </span>
               </div>
             </div>
@@ -92,7 +92,7 @@ export function MobileNav() {
         <div className="pt-5 border-t border-surface-200 space-y-3 bg-white">
           <div className="flex items-center gap-2 text-xs text-surface-600">
             <MapPin className="w-3.5 h-3.5 text-brand-600 shrink-0" />
-            <span>Ouest-Foire (près VDN / CICES), Dakar</span>
+            <span>{siteConfig.contact.landmarkNotice}</span>
           </div>
 
           <a
@@ -112,7 +112,7 @@ export function MobileNav() {
             className="w-full justify-center bg-emerald-600 hover:bg-emerald-700 text-white font-bold shadow-md shadow-emerald-600/20"
           >
             <MessageCircle className="w-4 h-4 mr-2" />
-            <span>Réserver sur WhatsApp</span>
+            <span>Commander sur WhatsApp</span>
           </Button>
         </div>
       </div>

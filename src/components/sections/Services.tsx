@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { siteConfig } from '@/config/site';
-import { Search, Sparkles, MessageCircle, Heart, Flame, Shield, ArrowRight, Droplet } from 'lucide-react';
+import { Search, Sparkles, MessageCircle, ChevronDown, ChevronUp } from 'lucide-react';
 
 const catalogueEssences = [
   // Homme & Mixte
@@ -213,6 +213,7 @@ const catalogueEssences = [
 export function Services() {
   const [searchTerm, setSearchTerm] = useState('');
   const [activeCategory, setActiveCategory] = useState('Tous');
+  const [showAll, setShowAll] = useState(false);
 
   const filteredEssences = catalogueEssences.filter((item) => {
     const matchesSearch =
@@ -226,6 +227,11 @@ export function Services() {
     if (activeCategory === 'Femme') return matchesSearch && item.gender.includes('Femme');
     return matchesSearch;
   });
+
+  const INITIAL_LIMIT = 8;
+  const isSearching = searchTerm.trim().length > 0;
+  const displayedEssences = showAll || isSearching ? filteredEssences : filteredEssences.slice(0, INITIAL_LIMIT);
+  const remainingCount = filteredEssences.length - INITIAL_LIMIT;
 
   return (
     <section id="catalogue" className="py-24 bg-white border-b border-[#E8E2D8]">
@@ -261,7 +267,10 @@ export function Services() {
             {['Tous', 'Top Ventes', 'Homme', 'Femme'].map((cat) => (
               <button
                 key={cat}
-                onClick={() => setActiveCategory(cat)}
+                onClick={() => {
+                  setActiveCategory(cat);
+                  setShowAll(false);
+                }}
                 className={`px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all ${
                   activeCategory === cat
                     ? 'bg-[#14171F] text-white shadow-md'
@@ -275,8 +284,8 @@ export function Services() {
         </div>
 
         {/* Visual Flacon Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-          {filteredEssences.map((essence, idx) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          {displayedEssences.map((essence, idx) => (
             <div
               key={idx}
               className="group bg-[#FAF9F6] hover:bg-white rounded-2xl p-6 border border-[#E8E2D8] hover:border-[#C59A3F] transition-all duration-300 hover:shadow-xl flex flex-col justify-between"
@@ -341,6 +350,40 @@ export function Services() {
             </div>
           ))}
         </div>
+
+        {/* Smart "Voir plus de références" Controls & WhatsApp Callout */}
+        {!isSearching && filteredEssences.length > INITIAL_LIMIT && (
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+            <button
+              onClick={() => setShowAll(!showAll)}
+              className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-[#FAF9F6] hover:bg-[#F0ECE1] border-2 border-[#C59A3F]/50 hover:border-[#C59A3F] text-[#14171F] text-xs font-bold uppercase tracking-wider transition-all shadow-sm group"
+            >
+              {showAll ? (
+                <>
+                  <ChevronUp className="w-4 h-4 text-[#C59A3F] group-hover:-translate-y-0.5 transition-transform" />
+                  <span>Afficher moins de références</span>
+                </>
+              ) : (
+                <>
+                  <ChevronDown className="w-4 h-4 text-[#C59A3F] group-hover:translate-y-0.5 transition-transform" />
+                  <span>Voir plus de références (+{remainingCount} essences)</span>
+                </>
+              )}
+            </button>
+
+            <a
+              href={`https://wa.me/${siteConfig.contact.whatsappNumber}?text=${encodeURIComponent(
+                "Bonjour Nathy Essences, avez-vous en stock l'essence de..."
+              )}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-emerald-600/10 hover:bg-emerald-600/20 text-emerald-800 text-xs font-bold uppercase tracking-wider transition-all border border-emerald-600/30"
+            >
+              <MessageCircle className="w-4 h-4 text-emerald-600" />
+              <span>Demander une référence rare sur WhatsApp</span>
+            </a>
+          </div>
+        )}
 
         {/* The Layering Formula Box - Contrast Section */}
         <div className="bg-[#121A2E] rounded-3xl p-8 sm:p-12 text-white border border-[#232D42] shadow-2xl relative overflow-hidden">

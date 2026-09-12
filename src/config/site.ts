@@ -3,8 +3,8 @@ import { SiteConfig } from '@/types';
 export const siteConfig: SiteConfig = {
   name: 'Nathy Essences Parfumerie — Le Luxe Accessible à Tous à Abidjan',
   shortName: 'Nathy Essences',
-  domain: 'nathyessences.ci',
-  url: process.env.NEXT_PUBLIC_SITE_URL || 'https://nathyessences.ci',
+  domain: 'nathyessences.com',
+  url: process.env.NEXT_PUBLIC_SITE_URL || 'https://nathyessences.com',
   tagline: 'Le Parfum Qui Vous Ressemble',
   taglineSecondary: 'Essences pures & concentrées de grands créateurs et parfums de niche au millilitre',
   description:
@@ -34,7 +34,7 @@ export const siteConfig: SiteConfig = {
     whatsappNumber: '2250564251534',
     whatsappUrl:
       'https://wa.me/2250564251534?text=Bonjour%20Nathy%20Essences%2C%20je%20souhaite%20commander%20des%20essences%20de%20parfum.',
-    email: 'contact@nathyessences.ci',
+    email: 'contact@nathyessences.com',
     address: {
       street: 'Boutique & Showroom Essences',
       neighborhood: 'Abidjan',
